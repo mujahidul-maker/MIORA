@@ -1,0 +1,5 @@
+"use client";
+import Link from"next/link";import{useEffect,useState}from"react";import{fmt}from"@/lib/data";import{DELIVERY}from"@/lib/config";
+export default function Done(){const[o,setO]=useState<any>(null);useEffect(()=>{try{setO(JSON.parse(sessionStorage.getItem("miora-order")||"null"))}catch{}},[]);
+if(!o)return<div className="wrap py-24 text-center"><p>No recent order found.</p><Link href="/" className="btn mt-6">Continue shopping</Link></div>;
+return<div className="wrap max-w-xl py-20 text-center"><h1 className="font-serif text-5xl">Thank you for your order!</h1><div className="mt-8 space-y-2 rounded-3xl bg-white p-6 text-left text-sm"><p>Order number: <b>{o.no}</b></p><p>Name: {o.name}</p><p>Total: <b>{fmt(o.total)}</b> ({o.pay})</p><p>Delivery: {o.zone==="dhaka"?"Inside Dhaka":"Outside Dhaka"}, estimated {DELIVERY.etaDays[o.zone as"dhaka"|"outside"]}</p></div><div className="mt-8 flex justify-center gap-3"><Link href="/" className="btn">Continue shopping</Link><Link href="/track-order" className="btn-o">Track order</Link></div></div>}
